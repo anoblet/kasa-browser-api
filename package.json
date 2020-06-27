@@ -1,8 +1,8 @@
 {
-  "name": "kasa-browser-api",
+  "name": "@anoblet/kasa-browser-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build:watch": "tsc --build ./tsconfig.json ./demo/tsconfig.json -w",
     "demo:serve": "es-dev-server --app-index demo/index.html --node-resolve --watch --open",
