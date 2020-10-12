@@ -1,28 +1,28 @@
-export const off = async ({ deviceId, token, url }) => fetch(`${url}?token=${token}`, {
+export const off = async ({ id, token, url }) => fetch(`${url}?token=${token}`, {
     body: JSON.stringify({
         method: "passthrough",
         params: {
-            deviceId: deviceId,
+            deviceId: id,
             requestData: { system: { set_relay_state: { state: 0 } } },
         },
     }),
     method: "POST",
 }).then((response) => response.json());
-export const on = async ({ deviceId, token, url }) => fetch(`${url}?token=${token}`, {
+export const on = async ({ id, token, url }) => fetch(`${url}?token=${token}`, {
     body: JSON.stringify({
         method: "passthrough",
         params: {
-            deviceId: deviceId,
+            deviceId: id,
             requestData: { system: { set_relay_state: { state: 1 } } },
         },
     }),
     method: "POST",
 }).then((response) => response.json());
-export const state = async ({ deviceId, token, url }) => fetch(`${url}?token=${token}`, {
+export const state = async ({ id, token, url }) => fetch(`${url}?token=${token}`, {
     body: JSON.stringify({
         method: "passthrough",
         params: {
-            deviceId: deviceId,
+            deviceId: id,
             requestData: {
                 system: { get_sysinfo: null },
                 emeter: { get_realtime: null },
@@ -32,20 +32,26 @@ export const state = async ({ deviceId, token, url }) => fetch(`${url}?token=${t
     method: "POST",
 })
     .then((response) => response.json())
-    .then((response) => response.result.responseData.system.get_sysinfo.relay_state);
-export const toggle = async ({ deviceId, token, url }) => fetch(`${url}?token=${token}`, {
+    .then((response) => !response.error_code
+    ? response.result.responseData.system.get_sysinfo.relay_state
+    : response);
+export const toggle = async ({ id, token, url }) => fetch(`${url}?token=${token}`, {
     body: JSON.stringify({
         method: "passthrough",
         params: {
-            deviceId: deviceId,
+            deviceId: id,
             requestData: {
                 system: {
                     set_relay_state: {
-                        state: !(await state({ deviceId, token, url })),
+                        state: !(await state({ id, token, url })),
                     },
                 },
             },
         },
     }),
     method: "POST",
-}).then((response) => response.json());
+})
+    .then((response) => response.json())
+    .then((response) => !response.error_code
+    ? response.result
+    : response);

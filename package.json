@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc --build ./tsconfig.json ./demo/tsconfig.json",
     "build:watch": "tsc --build ./tsconfig.json ./demo/tsconfig.json -w",
     "demo:serve": "es-dev-server --app-index demo/index.html --node-resolve --watch --open",
     "demo": "run-p build:watch demo:serve"

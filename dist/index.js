@@ -1,3 +1,3 @@
-export { devices, Kasa, login } from "./Kasa";
-export { off, on, state, toggle } from "./Plug";
-export { schedule } from "./Utility";
+export { devices, login } from "./account";
+export { off, on, state, toggle } from "./plug";
+export { schedule, Schedule } from "./schedule";
